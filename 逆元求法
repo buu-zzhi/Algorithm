@@ -1,0 +1,52 @@
+//求非质数逆元
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll p=1e9+7;
+ll mod(ll number) {return number % p;}
+void exgcd(ll a, ll b, ll &x, ll &y){
+	if(!b){
+		x=1, y=0;
+		return ;
+	}
+	exgcd(b, a%b, y, x);
+	y-=(a/b)*x;
+}
+ll inv(ll number, ll p){
+	ll x=1, y=0;
+	exgcd(number, p, x, y);
+	return (x%p+p)%p;
+}
+signed main(){
+	ll k;cin>>k;
+	ll k_inv=inv(k,p);
+	cout<<k_inv;
+	return 0;
+}
+
+//求质数逆元
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+//ll p=1e9+7;
+ll p, k;
+ll mod(ll number) {return number % p;}
+ll fast_pow(ll number, ll power){
+	ll ans=1LL;number%=p;
+	while(power){
+		if(power&1) ans=mod(ans*number);
+		number=mod(number*number);
+		power >>= 1;
+	}
+	return ans;
+}
+ll inv(ll number, ll p){
+	return fast_pow(number, p-2);
+}
+signed main(){
+	cin>>p>>k;
+	//7 2CR
+	ll k_inv=inv(k,p);
+	cout<<k_inv;//4
+	return 0;
+}
