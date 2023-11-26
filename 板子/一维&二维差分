@@ -1,4 +1,5 @@
 //一维
+//求完差分，再求前缀和
 //https://oj.socoding.cn/contest/problem?id=636&pid=9
 #include<cstdio>
 #include<vector>
