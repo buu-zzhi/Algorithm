@@ -23,4 +23,28 @@ int main(){
 
 
 //二维差分
-//
+//https://oj.socoding.cn/contest/problem?id=636&pid=10
+#include<cstdio>
+#include<vector>
+using namespace std;
+int main(){
+	int n, m, t;
+	scanf("%d%d%d", &n, &m, &t);
+	vector<vector<long long >> s(n+2, vector<long long>(m+2,0));
+	while(t--){
+		int a, b, c, d, x;
+		scanf("%d%d%d%d%d", &a, &b, &c, &d, &x);
+		s[a][c]+=x;
+		if(b<n) s[b+1][c]-=x;
+		if(d<m) s[a][d+1]-=x;
+		if(b<n&&d<m) s[b+1][d+1]+=x;
+	}
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			s[i][j]+=s[i-1][j]+s[i][j-1]-s[i-1][j-1];
+			printf("%lld ", s[i][j]);
+		}
+		printf("\n");
+	}
+	return 0;
+}
