@@ -1,0 +1,45 @@
+//一维前缀和
+//https://oj.socoding.cn/contest/problem?id=636&pid=5
+#include <cstdio>
+int n, m, l, r, a[100005];
+long long sum_a[100005];
+signed main(){
+	scanf("%d%d",&n,&m);
+	for(int i=1;i<=n;i++){
+		scanf("%d",&a[i]);
+		sum_a[i]=a[i]+sum_a[i-1];
+	}
+	while(m--){
+		scanf("%d%d",&l,&r);
+		printf("%lld\n", sum_a[r]-sum_a[l-1]);
+	}
+	return 0;
+}
+
+
+//二维前缀和
+//https://oj.socoding.cn/contest/problem?id=636&pid=6
+#include<cstdio>
+#include<vector>
+using namespace std;
+int main(){
+	int n, m, t;
+	scanf("%d%d%d", &n, &m, &t);
+	vector<vector<long long >> s(n+1, vector<long long>(m+1,0));
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			scanf("%lld", &s[i][j]);
+			s[i][j]+=s[i-1][j]+s[i][j-1]-s[i-1][j-1];
+		}
+	}
+	while(t--){
+		int a, b, c, d;
+		scanf("%d%d%d%d", &a, &b, &c, &d);
+		long long ans=s[b][d]-s[a-1][d]-s[b][c-1]+s[a-1][c-1];
+		printf("%lld\n", ans);
+	}
+	return 0;
+}
+
+
+//详细讲解公式在/课件/第三次课/末尾
