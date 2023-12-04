@@ -1,0 +1,20 @@
+//gcd
+//返回最大公因数
+int gcd(int a, int b){
+    if (!b)
+        return a;
+    return gcd(b, a % b);
+}
+
+//lcm
+//返回最小公倍数
+int gcd(int a, int b){
+    if (!b)
+        return a;
+    return gcd(b, a % b);
+}
+int lcm(int a, int b) {
+    return a / gcd(a, b) * b;
+}
+
+//end
