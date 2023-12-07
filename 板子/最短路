@@ -1,0 +1,43 @@
+//最短路
+#include <bits/stdc++.h>
+using ll = long long;
+int main(){
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int n, m, s;
+    std::cin >> n >> m >> s;
+    s--;
+
+    const ll inf = ll(2e18);
+    std::vector<std::vector<std::array<ll, 2>>> adj(n);
+    while (m--){
+        int u, v;
+        ll w;
+        std::cin >> u >> v >> w;
+        u--, v--;
+        adj[u].push_back({v, w});
+    }
+
+    std::priority_queue<std::array<ll, 2>> q;
+    std::vector<ll> dis(n, inf);
+    dis[s] = 0;
+    q.push({-dis[s], s});
+    while (!q.empty()){
+        auto [d, u] = q.top();
+        d = -d;
+        q.pop();
+
+        if (d > dis[u]) continue;
+        for (auto [v, w] : adj[u]){
+            if (dis[v] > dis[u] + w){
+                dis[v] = dis[u] + w;
+                q.push({-dis[v], v});
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++){
+        std::cout << dis[i] << " \n"[i == n - 1];
+    }
+    return 0;
+}
