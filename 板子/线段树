@@ -95,3 +95,89 @@ int main()
 }
 */
 
+
+
+//https://www.luogu.com.cn/problem/P3372
+//区间和
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+const int N = 1e5 + 10;
+
+int a[N];
+struct seg_tree{
+	
+	struct node{
+		int l, r, num, lazy;
+	}tr[N*4+2];
+	
+	void build(int p, int l, int r) {
+		tr[p].l = l, tr[p].r = r;
+		if (l == r) {
+			tr[p].num = a[l];
+			return;
+		}
+		int mid = l + r >> 1;
+		build(p*2, l, mid);
+		build(p*2+1, mid+1, r);
+		tr[p].num = tr[p*2].num + tr[p*2+1].num;
+	}
+	
+	void push_down(int p) {
+		if (tr[p].lazy) {
+			tr[p*2].lazy += tr[p].lazy;//左右儿子 加上父亲的lz
+			tr[p*2+1].lazy += tr[p].lazy;
+			int mid = (tr[p].l + tr[p].r) / 2;
+			tr[p*2].num += tr[p].lazy*(mid-tr[p*2].l+1);
+			tr[p*2+1].num += tr[p].lazy*(tr[p*2+1].r-mid);//前缀
+			tr[p].lazy = 0;
+		}
+		return;
+	}
+	
+	void add(int p, int l, int r, int k) {
+		if (tr[p].l >= l && tr[p].r <= r) {
+			tr[p].num += k*(tr[p].r - tr[p].l + 1);
+			tr[p].lazy += k;
+			return;
+		}
+		push_down(p);
+		if (tr[p*2].r >= l) add(p*2, l, r, k);
+		if (tr[p*2+1].l <= r) add(p*2+1, l, r, k);
+		tr[p].num = tr[p*2].num + tr[p*2+1].num;
+		return;
+	}
+	
+	int search(int p, int l, int r) {
+		if (tr[p].l >= l && tr[p].r <= r) {
+			return tr[p].num;
+		}
+		if (tr[p].r < l || tr[p].l > r) return 0;
+		push_down(p);
+		int s = 0;
+		if (tr[p*2].r >= l) s+=search(p*2, l, r);
+		if (tr[p*2+1].l <=r) s+=search(p*2+1, l, r);
+		return s;
+	}
+}ST;
+
+signed main() {
+	int n, m;
+	cin >> n >> m;
+	for (int i=1;i<=n;i++) cin >> a[i];
+	ST.build(1, 1, n);
+	
+	while(m--) {
+		int c, x, y;
+		cin >> c >> x >> y;
+		
+		if (c == 1) {
+			int k;
+			cin >> k;
+			ST.add(1, x, y, k);
+		} else {
+			cout << ST.search(1, x, y) << '\n';
+		}
+	}
+	return 0;
+}
