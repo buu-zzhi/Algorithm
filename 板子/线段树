@@ -1,0 +1,97 @@
+// luogu P3368 树状数组
+//https://www.luogu.com.cn/problem/P3368
+
+#include <bits/stdc++.h>
+using namespace std;
+const int MAXN = 1e6 + 10;
+
+int n, m, s, t;
+int ans;
+int a[MAXN];
+struct sement_tree {
+	
+	struct node {
+		int l, r;
+		int num;
+	}tr[MAXN * 4];
+	
+	void build (int p, int l, int r) {
+		tr[p] = {l, r, 0};
+		if (l == r) {//叶子节点
+			tr[p].num = a[l];
+			return;
+		}
+		int mid = l + r >> 1;//左子树
+		build(p << 1, l, mid);//右子树
+		build(p << 1 | 1, mid+1, r);
+	}//递归建树
+	
+	void modify (int p, int l, int r, int k) {
+		if (tr[p].l >= l && tr[p].r <= r) {
+			tr[p].num += k;
+			return;
+		}
+		int mid = tr[p].l + tr[p].r >> 1;
+		if (l <= mid) modify(p << 1, l, r, k);
+		if (r > mid) modify(p << 1 | 1, l, r, k);
+	}//区间修改
+	
+	void query (int p, int x) {
+		ans += tr[p].num;
+		if (tr[p].l == tr[p].r) return;
+		int mid = tr[p].l + tr[p].r >> 1;
+		if(x <= mid) query(p << 1, x);
+		else query(p << 1 | 1, x);
+	}//单点查询
+}ST;
+
+signed main() {
+	cin >> n >> m;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];
+	}
+	ST.build(1, 1, n);
+	for (int i = 1; i <= n; i++) {
+		int c;
+		cin >> c;
+		
+		if(c == 1) {
+			int x, y, z;
+			cin >> x >> y >> z;
+			ST.modify(1, x, y, z);
+		}
+		else {
+			ans = 0;
+			int x;
+			cin >> x;
+			ST.query(1, x);
+			cout << ans << '\n';
+		}
+	}
+	return 0;
+}
+
+/*
+int main()
+{
+	n = 100;
+	for (int i = 1; i <= n; ++ i) {
+		a[i] = i;
+	}
+	ST.build(1, 1, n);
+	m = 10;
+	for (int i = 1; i <= m; ++ i) {
+		int l = 1, r = 100;
+		ST.modify(1, l, r, 10000);
+		ans = 0;
+		// query(p, x), p = 1, x 为想要查询的点的下标
+		ST.query(1, 50); // 单点查询 下标为 50 的点的值，ans = 50 + 10000 * i
+		cout << i << " " << ans << '\n';
+		ans = 0;
+		ST.query(1, 100); // 单点查询 ans = 100 + 10000 * i
+		cout << i << " " << ans << '\n'; 
+	}
+	return 0;
+}
+*/
+
