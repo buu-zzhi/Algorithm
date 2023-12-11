@@ -1,0 +1,113 @@
+#include <bits/stdc++.h>
+//#include <vector>
+using namespace std;
+
+////传引用////
+void Print_vector (vector<int>& arr) {
+	for (auto temp : arr) {
+		cout << temp << " ";
+	}
+	cout << '\n';
+}
+
+struct Test{
+	int first, second;
+};
+
+int main() {
+	
+	////vector 定义////
+	cout << "define:\n";
+	int arr[5] = {1, 2, 3, 4, 5};
+	
+	vector<int> a;                 //vector<数据类型>变量名
+	vector<struct Test> a1;        //数据类型可以是结构体
+	vector<int> a2{1, 2, 3, 4, 5}; //创建同时赋值
+	vector<int> a3 (5, 1);         //vector<数据类型>变量名（vector大小 ，初始值）
+	vector<int> a4(arr+1, arr+4);  //复制[数组地址1，数组地址2）
+	vector<int> a5 = a4;           //直接复制
+	cout << '\n';
+	
+	
+	////插入操作////
+	cout << "add:\n";
+	vector<int> c = {1, 2, 3, 4, 5, 6};
+	vector<int> c1 = {10, 20, 30, 40, 50};
+	
+	//在vector后面插入元素 vector名.push_back(要插入的元素)；
+	c.push_back(9); 
+	Print_vector(c);
+	
+	//vector名.insert(迭代器坐标 ， 插入的元素)
+	c.insert(c.begin()+2, 11);
+	Print_vector(c);
+	c.insert(c.begin() + 2 , 5 , 0); //在c.begin() + 2 位置插入5个0
+	Print_vector(c);
+	c.insert(c.begin()+2, c1.begin()+1, c1.begin()+4);
+	Print_vector(c);
+	cout << '\n';
+	
+	
+	////删除操作////
+	cout << "delete:\n";
+	vector<int> d = {1, 2, 3, 4, 5, 6, 7};
+	
+	//pop_backd代表删除vector最后一个元素
+	d.pop_back();
+	Print_vector(d);
+	
+	//erase(指定要删除的迭代器)
+	d.erase(d.begin());
+	Print_vector(d);
+	// 如果是用erase删除最后一个元素的话要用end()-1
+	d.erase(d.end() - 1); 
+	Print_vector(d);
+	//删除迭代器1-迭代器2 ，[迭代器1， 迭代器2)
+	d.erase(d.begin()+2, d.end() - 1);
+	Print_vector(d);
+	
+	//clear直接清空
+	d.clear();
+	Print_vector(d);
+	cout << '\n';
+	
+	////其他操作////
+	cout << "else:\n";
+	vector<int> e = {1, 2, 3, 4, 5, 6, 7};
+	vector<int> e1 = {10, 20, 30, 40, 50, 60};
+	
+	//判断vector是否为空
+	cout << e.empty() << '\n';
+	//当前vector的大小
+	cout << e.size() << '\n';
+	//vector所可以容纳的最大值
+	cout << e.max_size() << '\n';
+	cout << e.capacity() << '\n';
+	
+	//重置vector 并为其重新赋值，之前的的将会消失
+	e.assign(4, 0);
+	Print_vector(e);
+	//可以用这个方法留取一段连续的值
+	e1.assign(e1.begin()+1, e1.end()-1);
+	Print_vector(e1);
+	
+	//交换两个vector的值
+	e.swap(e1);
+	Print_vector(e);
+	Print_vector(e1);
+	
+	//将两个vec.begin() 到 vec.end() 的值翻转过来
+	reverse(e.begin(), e.end()-2);
+	Print_vector(e);
+	
+	//排序
+	sort(e.begin(), e.end()); //默认从小到大
+	Print_vector(e);
+	//从大到小
+	sort(e.rbegin(), e.rend());  //方法1
+	sort(e.begin(), e.end(), [](int x, int y) {return x > y;}); //2
+	Print_vector(e);
+	cout << '\n';
+	
+	return 0;
+}
