@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+void Print_list(auto list_){
+	for(auto temp : list_)
+		cout << temp << " ";
+	cout <<endl;
+}
+int main()
+{
+	//list的建立方式与vector相似
+	list<int>sample(3 , 4); 
+	Print_list(sample);
+	
+	////添加元素
+	cout << "add:\n";
+	sample.push_back(10); // 在list的末尾添加元素
+	sample.push_front(7); // 在list的前面添加元素
+	Print_list(sample);
+	
+	//删除元素
+	cout << "delete:\n";
+	sample.pop_back(); //删除最后一个元素
+	sample.pop_front(); //删除第一个元素
+	Print_list(sample);
+	
+	//在指定迭代器位置插入元素
+	//只可以进行++ 或 -- 操作 ，+3等操作不支持
+	sample.insert(++sample.begin(), 5); 
+	Print_list(sample);
+	
+	auto sam = sample.begin();
+	for(int temp = 0 ; temp < 2 ; temp++) sam++;
+	sample.insert(sam , 8);
+	Print_list(sample);
+	sample.erase(--sam); //注意迭代器失效
+	Print_list(sample);
+	cout << sample.size() << endl; //输出list的大小
+	cout << sample.empty() << endl; //判断list是否为空
+	
+	//排序，注意只能使用list下的sort函数，一般的不支持
+	sample.sort(); 
+	Print_list(sample);
+	sample.sort([](int a , int b){return a > b;}); //可以重写排序方法
+	Print_list(sample);
+	
+	//将list翻转
+	sample.reverse(); 
+	Print_list(sample);
+	
+	//交换两个list内容
+	list<int>sample2(2,1);
+	sample.swap(sample2); 
+	Print_list(sample);
+	
+	//清空list
+	sample.clear(); 
+	return 0;
+}
