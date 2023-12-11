@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+//#include <stack>
+using namespace std;
+
+int main() {
+	
+	stack<int> s;
+	//将元素放入栈
+	s.push(1);
+	s.push(2);
+	s.push(3);
+	s.push(4);
+	s.push(5); 
+	//移除栈顶元素
+	s.pop();
+	//取得栈顶元素（不删除）
+	cout << s.top() << '\n';
+	//判断栈是否为空
+	cout << s.empty() << '\n';
+	//栈内元素个数
+	cout  << s.size() << '\n';
+	
+	//栈只能对栈顶元素进行操作，如果想要进行遍历，
+	//只能将栈中元素一个个取出来存在数组中
+	while(!s.empty()) {
+		int tp = s.top();
+		s.pop();
+		cout << tp << ' ';
+	}
+	return 0;
+}
