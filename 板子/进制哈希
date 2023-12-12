@@ -1,5 +1,5 @@
 ///https://www.luogu.com.cn/problem/P3370
-//进制哈希
+//哈希字符串
 //核心：将字符串转换为不能高概率重复的数字，进行排序再计数
 #include <iostream>
 #include <cstring>
