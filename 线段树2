@@ -1,0 +1,105 @@
+///https://www.luogu.com.cn/problem/P3373
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int maxn = 1e5 + 10;
+int n, q, m, a[maxn];
+
+struct seg_tree{
+	
+	struct node{
+		int l, r;
+		ll v, mul, add;
+	}tr[maxn*4];
+	
+	void update(int p) {
+		tr[p].v = (tr[p<<1].v + tr[p<<1|1].v) % m;
+	}
+	
+	void build(int p, int l, int r) {
+		tr[p].l = l, tr[p].r = r, tr[p].mul = 1;
+		if (l == r) {
+			tr[p].v = a[l] % m;
+			return;
+		}
+		int m = (l+r) >> 1;
+		build(p<<1, l, m);
+		build(p<<1|1, m+1, r);
+		update(p);
+	}
+	//important code
+	void push_down(int p) {
+		//儿子 = 儿子*mul + 儿子长度*add
+		tr[p<<1].v = (tr[p<<1].v*tr[p].mul + (tr[p<<1].r-tr[p<<1].l+1) * tr[p].add) % m;
+		tr[p<<1|1].v = (tr[p<<1|1].v*tr[p].mul + (tr[p<<1|1].r-tr[p<<1|1].l+1) * tr[p].add) % m;
+		//维护lazytag
+		tr[p<<1].mul = (tr[p<<1].mul*tr[p].mul) % m;
+		tr[p<<1|1].mul = (tr[p<<1|1].mul*tr[p].mul) % m;
+		tr[p<<1].add = (tr[p<<1].add*tr[p].mul+tr[p].add) % m;
+		tr[p<<1|1].add = (tr[p<<1|1].add*tr[p].mul+tr[p].add) % m;
+		//初始化
+		tr[p].mul = 1, tr[p].add = 0;
+	}
+	
+	void Mul(int p, int l, int r, int k) {
+		if(tr[p].l >= l && tr[p].r <= r) {
+			tr[p].add = (tr[p].add * k) % m;
+			tr[p].mul = (tr[p].mul * k) % m;
+			tr[p].v = (tr[p].v * k) % m;
+			return;
+		}
+		push_down(p);
+		int mid = (tr[p].l + tr[p].r) >> 1;
+		if (l <= mid) Mul(p<<1, l, r, k);
+		if (r > mid) Mul(p<<1|1, l, r, k);
+		update(p);
+	}
+	
+	void Add(int p, int l, int r, int k) {
+		if(tr[p].l >= l && tr[p].r <= r) {
+			tr[p].add = (tr[p].add + k) % m;
+			tr[p].v = (tr[p].v + k * (tr[p].r - tr[p].l + 1)) % m;
+			return;
+		}
+		push_down(p);
+		int mid = (tr[p].l + tr[p].r) >> 1;
+		if (l <= mid) Add(p<<1, l, r, k);
+		if (r > mid) Add(p<<1|1, l, r, k);
+		update(p);
+	}
+	//区间查询
+	ll query(int p, int l, int r) {
+		if(tr[p].l >= l && tr[p].r <= r) {
+			return tr[p].v;
+		}
+		push_down(p);
+		ll s = 0;
+		int mid = (tr[p].l + tr[p].r) >> 1;
+		if (l <= mid) s = (s + query(p<<1, l, r)) % m;
+		if (r > mid) s = (s + query(p<<1|1, l, r)) % m;
+		return s;
+	}
+}ST;
+signed main() {
+	scanf("%d%d%d", &n, &q, &m);
+	for(int i=1;i<=n;i++) scanf("%d", &a[i]);
+	ST.build(1, 1, n);
+
+	while(q--) {
+		int c, x, y;
+		scanf("%d%d%d", &c, &x, &y);
+		if (c == 1){
+			int k;
+			scanf("%d", &k);
+			ST.Mul(1, x, y, k);
+		} else if(c == 2){
+			int k;
+			scanf("%d", &k);
+			ST.Add(1, x, y, k);
+		} else {
+			printf("%lld\n", ST.query(1, x, y));
+		}
+	}
+	return 0;
+}
