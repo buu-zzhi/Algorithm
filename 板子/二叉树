@@ -1,3 +1,30 @@
 //先序  根左右
 //中序  左根右
 //后续  左右根
+//已知中后 求前
+//注重理解，再写
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <cstdio>
+using namespace std;
+string inor, aft;
+void solve(string inor, string aft){
+	if (aft.empty()) return ;
+	int l = aft.size()-1;
+	char root = aft[l];
+	printf("%c", root);
+	int k = inor.find(root);
+	aft.erase(l);
+	string linor = inor.substr(0, k);
+	string rinor = inor.substr(k+1);
+	string laft = aft.substr(0, k);
+	string raft = aft.substr(k);
+	solve(linor, laft);
+	solve(rinor, raft);
+}
+int main(){
+	cin>>inor>>aft;
+	solve(inor, aft);
+	return 0;
+}
