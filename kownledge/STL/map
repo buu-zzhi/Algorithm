@@ -21,6 +21,11 @@ int main() {
 	for (auto i : m) {
 		cout << i.first << " " << i.second << '\n';
 	}
+
+	// 改变map的键值
+	cout << ii->second << '\n';
+	(*ii).second--;
+	cout << ii->second << '\n';
 	return 0;
 }
 
