@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+map<int, int> m;
+int main() {
+	//插入元素
+	m[1]=2;
+	m.insert(make_pair(2, 3));
+	m.insert(pair<int, int>(3, 4));
+	m.insert({4, 5});
+	
+	// 元素访问
+	cout << m[4] << '\n';
+	auto ii = m.find(3);
+	cout << ii->first << " " << ii->second << '\n';
+
+	// 遍历map
+	for (auto it=m.begin();it!=m.end();it++) {
+		cout << it->first << " " << it->second << '\n';
+	}
+	
+	for (auto i : m) {
+		cout << i.first << " " << i.second << '\n';
+	}
+	return 0;
+}
+
+mp.find(key)	        返回键为key的映射的迭代器O(logN)注意：当数据存在时返回数据所在位置的迭代器，不存在时返回mp.end()
+mp.erase(it)	        删除迭代器对应的键和值O(1)
+mp.erase(key)	        根据映射的键删除键和值O(logN)
+mp.erase(first,last)	删除左闭右开区间迭代器对应的键和值O(last−first)
+mp.size()	            返回映射的对数$O(1)$
+mp.clear()	          清空map中的所有元素O(N)
+mp.insert()          	插入元素，插入时要构造键值对
+mp.empty()	          如果map为空，返回true，否则返回false
+mp.begin()	          返回指向map第一个元素的迭代器（地址）
+mp.end()	            返回指向map尾部的迭代器（最后一个元素的下一个地址）
+mp.rbegin()	          返回指向map最后一个元素的迭代器（地址）
+mp.rend()	            返回指向map第一个元素前面(上一个）的逆向迭代器（地址）
+mp.count(key)	        查看元素是否存在，因为map中键是唯一的，所以存在返回1，不存在返回0
+mp.lower_bound()	    返回一个迭代器，指向键值>= key的第一个元素
+mp.upper_bound()	    返回一个迭代器，指向键值> key的第一个元素
