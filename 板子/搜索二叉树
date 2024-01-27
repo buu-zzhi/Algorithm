@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef struct SortTree {
+	int data;
+	struct SortTree* left;
+	struct SortTree* right;
+}Node;
+
+Node* root;//根节点
+int deep;
+
+//初始化
+void Init(int key) {
+	root = (Node*)malloc(sizeof(Node));
+	root->data = key;
+	root->left = NULL;
+	root->right = NULL;
+}
+
+//节点插入
+void insert(int key) {
+	Node* temp = root;//方便移动  以及  跳出循环
+	Node* prev = NULL;//定位到待插入位置的前一个结点
+	while (temp != NULL) {
+		prev = temp;
+		if (key < temp->data) {
+			temp = temp->left;
+		} else if (key > temp->data) {
+			temp = temp->right;
+		} else {
+			return;
+		}
+	}
+	
+	if (key < prev->data) {
+		prev->left = (Node*)malloc(sizeof(Node));
+		prev->left->data = key;
+		prev->left->left = NULL;
+		prev->left->right = NULL;
+	} else {
+		prev->right = (Node*)malloc(sizeof(Node));
+		prev->right->data = key;
+		prev->right->left = NULL;
+		prev->right->right = NULL;
+	}
+}
+
+//删除操作 留个坑以后会填
+void delete_node() {
+
+}
+
+//查找元素key
+bool search(Node* root, int key) {
+	while (root != NULL)
+	{
+		if (key == root->data)
+			return true;
+		else if (key < root->data)
+			root = root->left;
+		else
+			root = root->right;
+	}
+	return false;
+ }
+ 
+// 返回节点深度
+int deepSearch(int key, Node* root) {
+	deep = 0;
+	while (root != NULL) {
+		deep++;
+		if (key < root->data) {
+			root = root->left;
+		} else {
+			root = root->right;
+		}
+	}
+	return deep;
+}
+
+//中序遍历
+void show(Node* root) {
+	if (root == NULL)
+	{
+		return;
+	}
+	show(root->left);
+	printf("%d ", root->data);
+	show(root->right);
+}
+
+int main() {
+	int n, num;
+	cin >> n;
+	cin >> num;
+	Init(num);
+	for (int i=1;i<n;i++) {
+		cin >> num;
+		insert(num);
+	}
+	show();
+	return 0;
+}
