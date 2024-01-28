@@ -1,0 +1,48 @@
+//求vector中最大值/最小值
+vector<int> b(n+1, 0);//差分
+int ans = *min_element(b.begin()+1, b.end());
+//max_element && min_element
+
+// 重载运算符
+// classname &operator[重载符号](classname& 实例对象)
+class complex{
+public:
+    complex(double r=0,double i=0){
+        this->r=r;
+        this->i=i;
+    }
+    complex operator+(complex&);
+    complex operator-(complex&);
+    complex operator+=(complex&);
+private:
+    double r,i;
+};
+complex complex::operator+(complex &c){
+    return complex(r+c.r,i+c.i);
+}
+complex complex::operator-(complex &c){
+    return complex(r-c.r,i-c.i);
+}
+complex complex::operator+=(complex &c){
+    r+=c.r;
+    i+=c.i;
+    return *this;//return complex(r,i)亦可
+}
+
+//template 实例化
+template<typename T>
+void Swap( T& left,  T& right) 
+{
+    T temp = left;
+    left = right;
+    right = temp; 
+}
+int main() {
+     int a=3, b=10;
+     double x=3.4, y=9.9;
+     Swap(a, b);
+     Swap(x, y);
+     cout << "a:" << a << " b:" << b << '\n';
+     cout << "x:" << x << " y:" << y << '\n';
+     return 0;
+}

@@ -1,4 +1,0 @@
-//求vector中最大值/最小值
-vector<int> b(n+1, 0);//差分
-int ans = *min_element(b.begin()+1, b.end());
-//max_element
