@@ -19,3 +19,60 @@ string mul(string a, string b) {
 	}
 	return s;
 }
+
+//加法
+string add(string a, string b) {
+    string s;
+	int na[L], nb[L], nc[L], La=a.size(), Lb=b.size(), Lc=1;
+	fill(na, na+L, 0);fill(nb, nb+L, 0);fill(nc, nc+L, 0);
+	for(int i=La-1;i>=0;i--) na[La-i] = a[i] - '0';
+	for(int i=Lb-1;i>=0;i--) nb[Lb-i] = b[i] - '0';
+ 
+    int x = 0;
+    while(Lc <= La || Lc <= Lb) {
+        nc[Lc] = na[Lc] + nb[Lc] + x;
+        x = nc[Lc]/10, nc[Lc] %= 10;
+        Lc++;
+    }
+    nc[Lc] = x;
+    if(nc[Lc] == 0) Lc--;
+	for (int i=Lc;i>=1;i--) {
+		s += nc[i]+'0';
+	}
+	return s;
+}
+
+//减法
+string Minus(string a, string b) {
+    string s;
+	int na[L], nb[L], nc[L], La=a.size(), Lb=b.size(), Lc=1;
+	fill(na, na+L, 0);fill(nb, nb+L, 0);fill(nc, nc+L, 0);
+	for(int i=La-1;i>=0;i--) na[La-i] = a[i] - '0';
+	for(int i=Lb-1;i>=0;i--) nb[Lb-i] = b[i] - '0';
+ 
+    int i = 1;
+    while(i <= La || i <= Lb) {
+        if(na[i] < nb[i]) {
+            nc[i] = na[i] + 10 - nb[i];
+            na[i+1]--; //借位处理
+        } else {
+            nc[i] = na[i] - nb[i]; 
+        }
+        i++;
+    }
+ 
+    Lc = i;
+    while(nc[Lc] == 0 && Lc > 1) Lc--;
+ 
+    for (int i=Lc;i>=1;i--) {
+		s += nc[i]+'0';
+	}
+	return s;
+}
+
+// 高精 / 低精
+
+
+// 高精 / 高精
+
+
