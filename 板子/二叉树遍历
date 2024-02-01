@@ -28,3 +28,31 @@ int main(){
 	solve(inor, aft);
 	return 0;
 }
+
+
+//已知先序后序求中序
+void inor(string bef, string aft) {
+	if (bef.empty()||aft.empty()) return;
+	if (bef.size()==1) {
+		cout << bef;
+		return;
+	}
+	
+	char root=bef[0];
+	int l=aft.size();
+	bef.erase(0, 1);
+	aft.erase(l-1, 1);
+	
+	char rightRoot = aft[l-2];
+	int k=bef.find(rightRoot);
+	string lbef=bef.substr(0, k);
+	string rbef=bef.substr(k);
+	
+	l = lbef.size();
+	string laft=aft.substr(0, l);
+	string raft=aft.substr(l);
+	
+	inor(lbef, laft);
+	cout << root;
+	inor(rbef, raft);
+}
