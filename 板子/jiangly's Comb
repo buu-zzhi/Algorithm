@@ -1,4 +1,5 @@
 template<class T>
+// power(a, b) 计算a^b
 constexpr T power(T a, i64 b) {
     T res = 1;
     for (; b; b /= 2, a *= a) {
@@ -8,7 +9,7 @@ constexpr T power(T a, i64 b) {
     }
     return res;
 }
- 
+// mul(a, b, p) 计算(a*b)%p
 constexpr i64 mul(i64 a, i64 b, i64 p) {
     i64 res = a * b - i64(1.L * a * b / p) * p;
     res %= p;
@@ -211,8 +212,10 @@ int MInt<0>::Mod = 998244353;
  
 template<int V, int P>
 constexpr MInt<P> CInv = MInt<P>(V).inv();
- 
+
+// 取模数修改处
 constexpr int P = 1000000007;
+// Z是MInt<P>的缩写
 using Z = MInt<P>;
  
 struct Comb {
@@ -243,19 +246,22 @@ struct Comb {
         }
         n = m;
     }
-     
+    // 计算 m 的阶乘 % P
     Z fac(int m) {
         if (m > n) init(2 * m);
         return _fac[m];
     }
+    // 计算 m 的阶乘的逆元 % P
     Z invfac(int m) {
         if (m > n) init(2 * m);
         return _invfac[m];
     }
+    // 返回整数 m 在模数 P 下的乘法逆元
     Z inv(int m) {
         if (m > n) init(2 * m);
         return _inv[m];
     }
+    // 即 n 选 m 的方式数量 % P
     Z binom(int n, int m) {
         if (n < m || m < 0) return 0;
         return fac(n) * invfac(m) * invfac(n - m);
