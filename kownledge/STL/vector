@@ -2,6 +2,11 @@
 //#include <vector>
 using namespace std;
 
+//官方认证，排序去重
+    sort(a.begin(), a.end());
+    a.resize(unique(a.begin(), a.end()) - a.begin());
+//
+
 ////传引用////
 void Print_vector (vector<int>& arr) {
 	for (auto temp : arr) {
