@@ -1,0 +1,20 @@
+void solve() {
+  auto dfs = [&](auto self, int i) -> void {
+		if (i == m) {
+			int res = 1;
+			for (int j=0;j<n;j++) {
+				res += (a[j] > a[0]);
+			}
+			ans = min(ans, res);
+			return;
+		}
+		for (auto [x, y] : {make_pair(3, 0), {0, 3}, {1, 1}}) {
+			a[u[i]] += x;
+			a[v[i]] += y;
+			self(self, i+1);
+			a[u[i]] -= x;
+			a[v[i]] -= y;
+		}
+	};
+  dfs(dfs, 0);
+}
