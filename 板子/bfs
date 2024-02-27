@@ -1,0 +1,23 @@
+//https://www.luogu.com.cn/problem/P1443
+int dx[8]={0, 0, 1, -1};
+int dy[8]={1, -1, 0, 0};  // 移动
+int f[N][N];    // 记录答案
+bool vis[N][N];  // 使用状态
+queue<pair<int, int>> qp;
+// 初始状态处理
+f[x][y]=0;vis[x][y]=1;qp.push(make_pair(x, y));
+while (!qp.empty()) {
+    // 处理队首元素
+		int xx=qp.front().first, yy=qp.front().second;
+    qp.pop();
+    // 生成新的状态
+		for (int i=0;i<8;i++) {
+			int nx = xx+dx[i], ny = yy+dy[i];
+			if (nx<1||nx>n||ny<1||ny>m||vis[nx][ny]) continue;
+			vis[nx][ny]=1;
+      // 新的状态入队
+      qp.push(make_pair(nx, ny));
+      // 记录答案
+			f[nx][ny] = f[xx][yy] + 1;
+		}
+}
