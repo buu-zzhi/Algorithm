@@ -1,0 +1,15 @@
+typedef long long ll;
+
+int kt(int a[], int n) {
+	ll s = 1;
+	for (int i=1;i<=n;i++) {
+		ll index = 1, f = 1, count = 0;
+		for (int j=i+1;j<=n;j++) {
+			f *= index;
+			index++;
+			if (a[i] > a[j]) count++;
+		}
+		s += 1ll*count*f;
+	}
+	return s;
+}
