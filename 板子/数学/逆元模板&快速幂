@@ -32,10 +32,10 @@ typedef long long ll;
 ll p, k;
 ll mod(ll number) {return number % p;}
 ll fast_pow(ll number, ll power){
-	ll ans=1LL;number%=p;
+	ll ans = 1LL; number %= p;
 	while(power){
-		if(power&1) ans=mod(ans*number);
-		number=mod(number*number);
+		if(power & 1) ans = mod(ans * number);
+		number = mod(number * number);
 		power >>= 1;
 	}
 	return ans;
