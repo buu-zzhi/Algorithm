@@ -1,3 +1,4 @@
+//数据范围较小
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -11,5 +12,45 @@ int main() {
 		f[i] += f[i - 1] * (i*4 - 2) / (i + 1);
 	}
 	cout << f[n];
+	return 0;
+}
+
+//数据范围较大
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int MAXN = 2e5 + 5, maxs = 2e5 + 5, p = 1e9 + 7;
+ll f[MAXN], c[MAXN], ans;
+
+ll mod(ll number) {return number % p;}
+ll fast_pow(ll number, ll power){
+	ll ans = 1LL; 
+	number %= p;
+	while(power){
+		if(power & 1) ans = mod(ans * number);
+		number = mod(number * number);
+		power >>= 1;
+	}
+	return ans;
+}
+
+void Init() {
+	c[0] = 1;
+	for(int i = 1; i <= maxs; i++) c[i] = c[i-1] * i % p;
+}
+
+ll C(int n,int m){
+	return c[n] * fast_pow(c[m], p - 2) % p * fast_pow(c[n - m], p - 2) % p;
+}
+
+ll Catalan(int n){
+	return C(2 * n, n) * fast_pow(n + 1, p - 2) % p;
+}
+
+int main() {
+	int n;
+	cin >> n;
+	Init();
+	cout << Catalan(n);
 	return 0;
 }
