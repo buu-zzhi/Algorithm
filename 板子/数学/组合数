@@ -6,3 +6,44 @@ ll C(int n, int m) {
 	for (int i=1;i<=n-m;i++) ans /= i;
 	return ans;
 }
+
+
+//大组合数
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+const int p=1e9+7;
+
+ll mod(ll number) {return number % p;}
+ll fast_pow(ll number, ll power) {
+	ll ans = 1LL;
+	number %= p;
+	while(power){
+		if(power & 1) ans = mod(ans * number);
+		number = mod(number * number);
+		power >>= 1;
+	}
+	return ans;
+}
+
+ll C(int a,int b) {
+    ll res = 1;
+    for(ll i = 1, j = a; i <= b; i++, j--) {
+        res = res * j % p;
+        res = res * fast_pow(i, p - 2) % p;
+    }
+    return res;
+}
+
+ll lucas(ll a,ll b) {
+    if(a < p && b < p)
+        return C(a, b);
+    return
+    C(a % p, b % p) * lucas(a / p, b / p) % p;
+}
+
+int main() {
+	cout << lucas(4, 2);
+	return 0;
+}
