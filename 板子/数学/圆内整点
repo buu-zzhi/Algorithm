@@ -1,28 +1,18 @@
-//https://codeforces.com/contest/1971/problem/F
+//半径为n的圆内（包括圆上）的整点数
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-
-void solve() {
-	int r;
-    cin >> r;
-    ll ans = 0;
-    for (int i = 0; i <= r; i++) {
-    	ans += sqrt(1ll*(r+1)*(r+1) - 1ll*i*i - 1);
-    	if (i < r) ans -= int(sqrt(1ll*r*r - 1ll*i*i - 1));
-	}
-	cout << ans*4 << '\n';
-    
-}
 
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr); 
     
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+    int n;
+    cin >> n;
+    ll ans = 0;
+    for(int i = -n; i <= n; i++) {
+	ans += int(floorl(sqrtl(n*n - i*i))) *2 + 1
     }
+    cout << ans << endl;
     return 0;
 }
