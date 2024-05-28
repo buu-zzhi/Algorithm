@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define mn 5010
+typedef long long ll;
+struct edge {
+	ll to, nx;
+} e[500010];
+ll hd[mn], n, cnt, m, ru[mn];
+// hd[i] e[i].nx 记录上一次出现i的坐标
+// ru[i] 记录节点i的入度
+// n节点数 m边数
+void adde(ll u, ll v) {
+	e[++cnt] = {v, hd[u]};
+	hd[u] = cnt, ++ru[v];
+}
+queue<ll> q; //处理队列
+vector<ll> vis; // 存储答案
+int main(){
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	
+    cin >> n >> m;
+    for (ll i = 1, u, v; i <= n; i++) {
+    	cin >> u >> v; adde(u, v);
+	}
+	for (ll i = 1; i <= n; i++) {
+		if (ru[i] == 0) {
+			q.push(i);
+		}
+	}
+	if (q.empty()) {
+		// 含有环
+		return cout << "NO\n", 0;
+	}
+	while (!q.empty()) {
+		ll u = q.front();
+		q.pop();
+		vis.emplace_back(u);
+		for (ll i = hd[u], v; i; i = e[i].nx) {
+			v = e[i].to;
+			--ru[v];
+			if (!ru[v]) {
+				q.push(v);
+			}
+		}
+	}
+	// yes表示可以拓扑排序
+    return cout << ((ll)vis.size == n ? "YES" : "NO"), 0;
+}
