@@ -1,13 +1,11 @@
+//https://www.luogu.com.cn/problem/P3879
 #include <bits/stdc++.h>
-#define pii pair<int, int>
-#define vi vector<int>
 using namespace std;
 typedef long long ll;
 
 string s;
 int nex[500010][26], n, cnt = 0;
-bool b[500010][1010];//停止
-int MAX = 0;
+bool b[500010][1010];
 
 inline void insert(int x) {
 	cin >> s;
@@ -18,7 +16,6 @@ inline void insert(int x) {
 		now = nex[now][p];
 	}
 	b[now][x] = 1;
-	MAX = max(MAX, now);
 }
 inline void check() {
 	cin >> s;
@@ -50,16 +47,10 @@ int main() {
 		}
 	}
 	
-//	int q;
-//	cin >> q;
-//	while (q--) {
-//		check();
-//	}
-	for (int i = 0; i <= 75; i++) {
-		for (int j = 0; j < 26; j++) {
-			cout << b[i][j] << ' ';
-		}
-		cout << '\n';
+	int q;
+	cin >> q;
+	while (q--) {
+		check();
 	}
     return 0;
 }
