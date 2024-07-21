@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+#define pii pair<int, int>
+#define vi vector<int>
+using namespace std;
+typedef long long ll;
+
+string s;
+int nex[500010][26], n, cnt = 0;
+bool b[500010][1010];//停止
+int MAX = 0;
+
+inline void insert(int x) {
+	cin >> s;
+	int now = 0;
+	for (int i = 0; i < s.size(); i++) {
+		int p = s[i] - 'a';
+		if (!nex[now][p]) nex[now][p] = ++cnt;
+		now = nex[now][p];
+	}
+	b[now][x] = 1;
+	MAX = max(MAX, now);
+}
+inline void check() {
+	cin >> s;
+	int now = 0, flag = 1;
+	for (int i = 0; i < s.size(); i++) {
+		int p = s[i] - 'a';
+		if (!nex[now][p]) {
+			flag = 0;
+			break;
+		}
+		now = nex[now][p];
+	}
+	if (flag) {
+		for (int i = 1; i <= n; i++) {
+			if (b[now][i]) cout << i << ' ';
+		}
+	}
+	cout << '\n';
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    cin >> n;
+    for (int i = 1; i <= n; i++) {
+    	int x; cin >> x;
+    	for (int j = 0; j < x; j++) {
+    		insert(i);
+		}
+	}
+	
+//	int q;
+//	cin >> q;
+//	while (q--) {
+//		check();
+//	}
+	for (int i = 0; i <= 75; i++) {
+		for (int j = 0; j < 26; j++) {
+			cout << b[i][j] << ' ';
+		}
+		cout << '\n';
+	}
+    return 0;
+}
